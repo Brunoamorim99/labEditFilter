@@ -15,20 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         filteredBooks.forEach((book, index) => {
             const isOnLoan = loans.some(loan => loan.bookIndex === index);
-            const bookItem = document.createElement('div');
-            bookItem.className = `book-item ${isOnLoan ? 'on-loan' : ''}`;
-            bookItem.innerHTML = `
-                <h3>${book.title} ${isOnLoan ? '(On Loan)' : ''}</h3>
-                <p>Author: ${book.author}</p>
-                <p>Publisher: ${book.publisher}</p>
-                <p>Language: ${book.language}</p>
-                <p>ISBN: ${book.isbn}</p>
+            const bookCard = document.createElement('div');
+            bookCard.className = `book-card ${isOnLoan ? 'on-loan' : ''}`;
+            bookCard.innerHTML = `
+                ${book.image ? `<img class="book-img" src="${book.image}" alt="${book.title}">` : '<div class="book-img" style="height: 160px; background: #eee; display: flex; align-items: center; justify-content: center; color: #666;">No Image</div>'}
+                <h4 class="book-title">${book.title} ${isOnLoan ? '(On Loan)' : ''}</h4>
+                <p class="book-author">Author: ${book.author}</p>
+                <p class="book-publisher">Publisher: ${book.publisher}</p>
+                <p class="book-language">Language: ${book.language}</p>
+                <p class="book-isbn">ISBN: ${book.isbn}</p>
                 <div class="book-actions">
                     <button class="btn-edit" data-index="${index}">EDIT</button>
                     <button class="btn-delete" data-index="${index}">DELETE</button>
                 </div>
             `;
-            bookList.appendChild(bookItem);
+            bookList.appendChild(bookCard);
         });
         updateFilterOptions();
     }
@@ -98,14 +99,15 @@ document.addEventListener('DOMContentLoaded', () => {
         loans.forEach((loan, index) => {
             const book = books[loan.bookIndex];
             const dueDate = new Date(loan.dueDate).toLocaleDateString();
-            const loanItem = document.createElement('div');
-            loanItem.className = 'loan-item';
-            loanItem.innerHTML = `
+            const loanCard = document.createElement('div');
+            loanCard.className = 'loan-card';
+            loanCard.innerHTML = `
+                ${book.image ? `<img class="book-img" src="${book.image}" alt="${book.title}">` : '<div class="book-img" style="height: 160px; background: #eee; display: flex; align-items: center; justify-content: center; color: #666;">No Image</div>'}
+                <h4 class="book-title">${book.title}</h4>
                 <p><strong>Borrower:</strong> ${loan.borrower}</p>
-                <p><strong>Book:</strong> ${book.title}</p>
                 <p><strong>Due Date:</strong> ${dueDate}</p>
             `;
-            loanList.appendChild(loanItem);
+            loanList.appendChild(loanCard);
         });
     }
 
@@ -118,15 +120,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentView = view;
         if (view === 'books') {
-            booksView.style.display = 'block';
+            booksView.style.display = 'flex';
             loansView.style.display = 'none';
-            viewBooksBtn.style.backgroundColor = '#45a049';
-            viewLoansBtn.style.backgroundColor = '#4CAF50';
+            viewBooksBtn.classList.add('active');
+            viewLoansBtn.classList.remove('active');
         } else {
             booksView.style.display = 'none';
-            loansView.style.display = 'block';
-            viewBooksBtn.style.backgroundColor = '#4CAF50';
-            viewLoansBtn.style.backgroundColor = '#45a049';
+            loansView.style.display = 'flex';
+            viewBooksBtn.classList.remove('active');
+            viewLoansBtn.classList.add('active');
             renderLoanForm();
             renderLoanedBooks();
         }
@@ -140,19 +142,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const publisher = document.getElementById('publisher').value;
         const language = document.getElementById('language').value;
         const isbn = document.getElementById('isbn').value;
+        const imageFile = document.getElementById('book-image').files[0];
 
-        if (editingIndex !== null) {
-            books[editingIndex] = { title, author, publisher, language, isbn };
-            editingIndex = null;
-            bookForm.querySelector('button').textContent = 'Add Book';
+        const processBook = (imageData = null) => {
+            const bookData = { title, author, publisher, language, isbn };
+            if (imageData) {
+                bookData.image = imageData;
+            }
+
+            if (editingIndex !== null) {
+                books[editingIndex] = bookData;
+                editingIndex = null;
+                bookForm.querySelector('button').textContent = 'Add Book';
+            } else {
+                books.push(bookData);
+            }
+            saveBooks();
+            bookForm.reset();
+            renderBooks();
+            if (currentView === 'loans') {
+                renderLoanForm();
+            }
+        };
+
+        if (imageFile) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                processBook(e.target.result);
+            };
+            reader.readAsDataURL(imageFile);
         } else {
-            books.push({ title, author, publisher, language, isbn });
-        }
-        saveBooks();
-        bookForm.reset();
-        renderBooks();
-        if (currentView === 'loans') {
-            renderLoanForm();
+            processBook();
         }
     });
 

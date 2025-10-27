@@ -7,54 +7,61 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Book Catalog</h1>
-        <button id="view-books-btn">Books</button>
-        <button id="view-loans-btn">Loans</button>
-    </header>
-    <main>
-        <div id="books-view">
-            <section class="filters">
-                <label for="filter">filter by publisher:</label>
-                <select id="filter">
-                    <option value="all">All</option>
-                </select>
-            </section>
-            <section class="book-list">
-                <!-- Books will be displayed here -->
-            </section>
-            <section class="add-book">
-                <h2>Add New Book</h2>
-                <form id="book-form">
-                    <input type="text" id="title" placeholder="Title" required>
-                    <input type="text" id="author" placeholder="Author" required>
-                    <input type="text" id="publisher" placeholder="Publisher" required>
-                    <input type="text" id="language" placeholder="Language" required>
-                    <input type="text" id="isbn" placeholder="ISBN" required>
-                    <button type="submit">Add Book</button>
-                </form>
-            </section>
-        </div>
-        <div id="loans-view" style="display: none;">
-            <section class="add-loan">
-                <h2>Create Book Loan</h2>
-                <form id="loan-form">
-                    <input type="text" id="borrower" placeholder="Borrower Name" required>
-                    <select id="book-select" required>
-                        <option value="">Select a book</option>
+    <div class="page">
+        <header class="header">
+            <h1>Book Catalog</h1>
+            <div class="view-buttons">
+                <button id="view-books-btn">Books</button>
+                <button id="view-loans-btn">Loans</button>
+            </div>
+        </header>
+
+        <main class="content">
+            <div id="books-view" class="view-content">
+                <div class="filters">
+                    <label for="filter">filter by publisher:</label>
+                    <select id="filter">
+                        <option value="all">All</option>
                     </select>
-                    <input type="number" id="loan-period" placeholder="Loan period (1-4 weeks)" min="1" max="4" required>
-                    <button type="submit">Create Loan</button>
-                </form>
-            </section>
-            <section class="loaned-books">
-                <h2>Loaned Books</h2>
-                <div class="loan-list">
-                    <!-- Loaned books will be displayed here -->
                 </div>
-            </section>
-        </div>
-    </main>
+                <div class="book-list">
+                    <!-- Books will be displayed here -->
+                </div>
+                <div class="add-book">
+                    <form id="book-form">
+                        <input type="text" id="title" placeholder="Title" required>
+                        <input type="text" id="author" placeholder="Author" required>
+                        <input type="text" id="publisher" placeholder="Publisher" required>
+                        <input type="text" id="language" placeholder="Language" required>
+                        <input type="text" id="isbn" placeholder="ISBN" required>
+                        <input type="file" id="book-image" accept="image/*">
+                        <button type="submit">Add Book</button>
+                    </form>
+                </div>
+            </div>
+            <div id="loans-view" class="view-content" style="display: none;">
+                <div class="add-loan">
+                    <form id="loan-form">
+                        <input type="text" id="borrower" placeholder="Borrower Name" required>
+                        <select id="book-select" required>
+                            <option value="">Select a book</option>
+                        </select>
+                        <input type="number" id="loan-period" placeholder="Loan period (1-4 weeks)" min="1" max="4" required>
+                        <button type="submit">Create Loan</button>
+                    </form>
+                </div>
+                <div class="loaned-books">
+                    <div class="loan-list">
+                        <!-- Loaned books will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Bruno's Catalog</p>
+        </footer>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
