@@ -1,0 +1,17 @@
+{
+  "name": "book-catalog",
+  "version": "1.0.0",
+  "description": "A book catalog website with editing, filtering, and local storage",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server . -p 3001",
+    "dev": "http-server . -p 3001 --cors"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "devDependencies": {},
+  "keywords": ["book", "catalog", "frontend"],
+  "author": "",
+  "license": "ISC"
+}

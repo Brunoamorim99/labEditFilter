@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catalog</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Book Catalog</h1>
+    </header>
+    <main>
+        <section class="filters">
+            <label for="filter">filter by publisher:</label>
+            <select id="filter">
+                <option value="all">All</option>
+            </select>
+        </section>
+        <section class="book-list">
+            <!-- Books will be displayed here -->
+        </section>
+        <section class="add-book">
+            <h2>Add New Book</h2>
+            <form id="book-form">
+                <input type="text" id="title" placeholder="Title" required>
+                <input type="text" id="author" placeholder="Author" required>
+                <input type="text" id="publisher" placeholder="Publisher" required>
+                <input type="text" id="language" placeholder="Language" required>
+                <input type="text" id="isbn" placeholder="ISBN" required>
+                <button type="submit">Add Book</button>
+            </form>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
